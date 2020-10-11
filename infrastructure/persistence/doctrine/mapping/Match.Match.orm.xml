@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="KLevesque\LCGS\Domain\Match\Match" table="matches">
+
+
+        <id name="id" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+        <field name="date" unique="true" type="datetime" />
+        <many-to-many field="teams" target-entity="KLevesque\LCGS\Domain\Match\Team" fetch="EAGER">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-table name="match_team">
+                <join-columns>
+                    <join-column name="match_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="team_id" referenced-column-name="id"  />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+        <embedded name="winnerTeamColor" class="KLevesque\LCGS\Domain\Match\TeamColor" column-prefix="winner_" />
+
+    </entity>
+
+</doctrine-mapping>

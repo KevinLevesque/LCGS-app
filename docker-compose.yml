@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+    ports:
+    - 3320:3306
+
+
+  rest:
+    image: webdevops/php-apache:7.4
+    ports:
+    - 8099:80
+    volumes:
+    - ./:/app
+    environment:
+      WEB_DOCUMENT_ROOT: /app/rest/public

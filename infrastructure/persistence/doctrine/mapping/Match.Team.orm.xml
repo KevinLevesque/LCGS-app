@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="KLevesque\LCGS\Domain\Match\Team" table="team">
+
+
+        <id name="id" type="string" />
+        <embedded name="color" class="KLevesque\LCGS\Domain\Match\TeamColor" use-column-prefix="false" />
+
+        <many-to-many field="championsBans" target-entity="KLevesque\LCGS\Domain\Champion\Champion" fetch="EAGER">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-table name="team_champion_ban">
+                <join-columns>
+                    <join-column name="team_id" referenced-column-name="id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="champion_id" referenced-column-name="id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+        <many-to-many field="participants" target-entity="KLevesque\LCGS\Domain\Match\Participant" fetch="EAGER">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-table name="team_participant">
+                <join-columns>
+                    <join-column name="team_id" referenced-column-name="id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="participant_id" referenced-column-name="id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+
+    </entity>
+
+</doctrine-mapping>

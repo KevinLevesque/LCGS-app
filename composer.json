@@ -1,0 +1,21 @@
+{
+    "name": "klevesque/lolcustomgroupstats",
+    "authors": [
+        {
+            "name": "Kevin Lévesque",
+            "email": "kevin.levesque@gmail.com"
+        }
+    ],
+    "require": {
+        "doctrine/orm": "^2.7",
+        "dolejska-daniel/riot-api": "^4",
+        "mark-gerarts/auto-mapper-plus": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "KLevesque\\LCGS\\Domain\\" : "domain/",
+            "KLevesque\\LCGS\\Infrastructure\\" : "infrastructure/",
+            "KLevesque\\LCGS\\Services\\" : "services/"
+        }
+    }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="KLevesque\LCGS\Domain\Match\Participant" table="participants">
+
+
+        <id name="id" type="string" />
+        <many-to-one field="player" target-entity="KLevesque\LCGS\Domain\Player\Player" fetch="EAGER">
+            <join-column name="player_id" referenced-column-name="id" nullable="true" />
+        </many-to-one>
+        <many-to-one field="champion" target-entity="KLevesque\LCGS\Domain\Champion\Champion" fetch="EAGER">
+            <join-column name="champion_id" referenced-column-name="id"/>
+        </many-to-one>
+
+        <field name="kills" type="integer" />
+        <field name="deaths" type="integer" />
+        <field name="assists" type="integer" />
+        <field name="totalDamageDealtToChampions" type="integer" column="total_damage_dealt_to_champions" />
+        <field name="role" />
+        <field name="lane" />
+
+
+
+
+    </entity>
+
+</doctrine-mapping>
