@@ -17,5 +17,12 @@
             "KLevesque\\LCGS\\Infrastructure\\" : "infrastructure/",
             "KLevesque\\LCGS\\Services\\" : "services/"
         }
+    },
+
+    "scripts": {
+        "post-install-cmd": [
+            "cd rest && composer install"
+
+        ]
     }
 }
