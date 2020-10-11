@@ -7,7 +7,7 @@
         }
     ],
     "require": {
-        "php": "7.4",
+        "php": "^7.4",
         "doctrine/orm": "^2.7",
         "dolejska-daniel/riot-api": "^4",
         "mark-gerarts/auto-mapper-plus": "^1.3",
