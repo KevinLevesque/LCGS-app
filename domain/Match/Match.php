@@ -120,5 +120,15 @@ class Match
         return false;
     }
 
+    public function hasPlayerWon(Player $player)
+    {
+        /** @var Team $team */
+        foreach ($this->teams as $team) {
+            if($team->getColor()->value === $this->winnerTeamColor->value && $team->hasPlayer($player)){
+                return true;
+            }
+        }
+    }
+
 
 }

@@ -3,10 +3,12 @@
 namespace KLevesque\LCGS\Services;
 
 use AutoMapperPlus\AutoMapperInterface;
+use KLevesque\LCGS\Domain\Player\PlayerStatsCalculator;
 use KLevesque\LCGS\Domain\Player\Player;
 use KLevesque\LCGS\Domain\Player\PlayerRepository;
 use KLevesque\LCGS\Infrastructure\RiotApi\RiotApi;
 use KLevesque\LCGS\Services\Dto\PlayerDto;
+use KLevesque\LCGS\Services\Dto\PlayerStatsDto;
 
 class PlayerService
 {
@@ -19,13 +21,18 @@ class PlayerService
      * @var AutoMapperInterface
      */
     private AutoMapperInterface $mapper;
+    /**
+     * @var PlayerStatsCalculator
+     */
+    private PlayerStatsCalculator $playerStatsCalculator;
 
 
-    public function __construct(RiotApi $riotApi, PlayerRepository $playerRepository, AutoMapperInterface $mapper)
+    public function __construct(RiotApi $riotApi, PlayerRepository $playerRepository, PlayerStatsCalculator $playerStatsCalculator, AutoMapperInterface $mapper)
     {
         $this->riotApi = $riotApi;
         $this->playerRepository = $playerRepository;
         $this->mapper = $mapper;
+        $this->playerStatsCalculator = $playerStatsCalculator;
     }
 
 
@@ -42,5 +49,19 @@ class PlayerService
     {
         $players = $this->playerRepository->getAllPlayers();
         return $this->mapper->mapMultiple($players, PlayerDto::class);
+    }
+
+    /** @return PlayerStatsDto[] */
+    public function getAllStats() : array {
+        $players = $this->playerRepository->getAllPlayers();
+
+        $playersStats = [];
+
+        /** @var Player $player */
+        foreach ($players as $player){
+            $playersStats[] = $player->getPlayerStats($this->playerStatsCalculator);
+        }
+
+        return $this->mapper->mapMultiple($playersStats, PlayerStatsDto::class);
     }
 }

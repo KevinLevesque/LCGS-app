@@ -1,10 +1,6 @@
 <?php
 namespace KLevesque\LCGS\Domain\Player;
 
-use KLevesque\LCGS\Domain\Match\Match;
-use KLevesque\LCGS\Domain\Match\MatchRepository;
-use Ramsey\Collection\Collection;
-
 class Player
 {
 
@@ -16,6 +12,28 @@ class Player
         $this->id = $id;
         $this->username = $username;
     }
+
+    public function getPlayerStats(PlayerStatsCalculator $calculator) : PlayerStats{
+        return $calculator->calculateStats($this);
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+
 
 
 

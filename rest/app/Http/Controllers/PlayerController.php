@@ -36,4 +36,8 @@ class PlayerController extends Controller
         $players = $this->playerService->getAll();
         return response()->json($players);
     }
+
+    public function getAllStats(){
+        return response()->json($this->playerService->getAllStats());
+    }
 }

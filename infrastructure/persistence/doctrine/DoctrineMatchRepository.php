@@ -48,7 +48,17 @@ class DoctrineMatchRepository implements MatchRepository
 
     public function getMatchesWithPlayer(Player $player)
     {
-        // TODO: Implement getMatchesWithPlayer() method.
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('match')
+            ->from(Match::class, 'match')
+            ->innerJoin('match.teams', 'team')
+            ->innerJoin('team.participants', 'participant')
+            ->innerJoin('participant.player', 'player');
+
+        $qb->andWhere($qb->expr()->eq('player.id', ':id'))
+            ->setParameter('id', $player->getId());
+
+        return $qb->getQuery()->getResult();
     }
 
     public function getMatchsWithChampion(Champion $champion)
@@ -68,4 +78,6 @@ class DoctrineMatchRepository implements MatchRepository
         return $qb->getQuery()->getResult();
 
     }
+
+
 }

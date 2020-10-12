@@ -19,6 +19,7 @@ use KLevesque\LCGS\Domain\Match\Team;
 use KLevesque\LCGS\Domain\Match\TeamColor;
 use KLevesque\LCGS\Domain\Player\Player;
 use KLevesque\LCGS\Domain\Player\PlayerRepository;
+use KLevesque\LCGS\Domain\Player\PlayerStats;
 use KLevesque\LCGS\Infrastructure\persistence\doctrine\DoctrineChampionRepository;
 use KLevesque\LCGS\Infrastructure\persistence\doctrine\DoctrineMatchRepository;
 use KLevesque\LCGS\Infrastructure\persistence\doctrine\DoctrinePlayerRepository;
@@ -29,6 +30,7 @@ use KLevesque\LCGS\Services\Dto\ChampionStatsDto;
 use KLevesque\LCGS\Services\Dto\MatchDto;
 use KLevesque\LCGS\Services\Dto\ParticipantDto;
 use KLevesque\LCGS\Services\Dto\PlayerDto;
+use KLevesque\LCGS\Services\Dto\PlayerStatsDto;
 use KLevesque\LCGS\Services\Dto\TeamDto;
 use RiotAPI\LeagueAPI\Definitions\Region;
 use RiotAPI\LeagueAPI\LeagueAPI;
@@ -95,6 +97,9 @@ class AppServiceProvider extends ServiceProvider
 
         $config->registerMapping(ChampionStats::class, ChampionStatsDto::class)
             ->forMember('champion', Operation::mapTo(ChampionDto::class));
+
+        $config->registerMapping(PlayerStats::class, PlayerStatsDto::class)
+            ->forMember('player', Operation::mapTo(PlayerDto::class));
 
         $this->app->singleton(AutoMapperInterface::class, fn() => new AutoMapper($config));
     }

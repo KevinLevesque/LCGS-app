@@ -33,6 +33,7 @@ $router->post('/matches/{matchId}/participants/{participantId}/setPlayer', ['mid
 
 $router->post('/players', ['middleware' => 'auth', 'uses' => "PlayerController@addPlayer"]);
 $router->get('/players', "PlayerController@getAll");
+$router->get('/players/stats', "PlayerController@getAllStats");
 
 
 $router->get('/champions/stats', "ChampionController@getAllStats");
