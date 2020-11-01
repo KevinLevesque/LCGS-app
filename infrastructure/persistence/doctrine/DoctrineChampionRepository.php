@@ -32,12 +32,17 @@ class DoctrineChampionRepository implements ChampionRepository
     {
         $champion = $this->em->getRepository(Champion::class)->find($id);
 
-        if(!$champion){
+        if (!$champion) {
             $this->syncChampionWithApi($id);
             $champion = $this->em->getRepository(Champion::class)->find($id);
         }
 
         return $champion;
+    }
+
+    public function getChampionByName(string $name): Champion
+    {
+        return $this->em->getRepository(Champion::class)->findOneBy(['name' => $name]);
     }
 
     private function syncChampionWithApi(int $id)

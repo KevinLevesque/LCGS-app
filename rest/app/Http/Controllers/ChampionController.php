@@ -33,4 +33,17 @@ class ChampionController extends Controller
         $champions = $this->championService->getChampionsStats();
         return response()->json($champions);
     }
+
+    public function getStats($name) {
+        $name = urldecode($name);
+        $champions = $this->championService->getChampionStats($name);
+        return response()->json($champions);
+    }
+
+    public function getMatches($name){
+        $name = urldecode($name);
+        return response()->json(
+          $this->championService->getMatches($name)
+        );
+    }
 }

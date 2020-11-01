@@ -27,16 +27,21 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('/matches', "MatchController@getMatches");
-$router->get('/matches/{id}', "MatchController@getMatch");
+$router->get('/matches/count', "MatchController@getMatchesCount");
 $router->post('/matches/sync', ['middleware' => 'auth', 'uses' => "MatchController@syncMatch"]);
 $router->post('/matches/{matchId}/participants/{participantId}/setPlayer', ['middleware' => 'auth', 'uses' => "MatchController@setPlayer"]);
+$router->get('/matches/{id}', "MatchController@getMatch");
 
 $router->post('/players', ['middleware' => 'auth', 'uses' => "PlayerController@addPlayer"]);
 $router->get('/players', "PlayerController@getAll");
 $router->get('/players/stats', "PlayerController@getAllStats");
+$router->get('/players/{username}/matches', "PlayerController@getMatches");
+$router->get('/players/{username}/stats', "PlayerController@getStats");
 
 
 $router->get('/champions/stats', "ChampionController@getAllStats");
+$router->get('/champions/{name}/stats', "ChampionController@getStats");
+$router->get('/champions/{name}/matches', "ChampionController@getMatches");
 
 
 

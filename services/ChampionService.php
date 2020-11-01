@@ -29,12 +29,17 @@ class ChampionService
      * @var AutoMapperInterface
      */
     private AutoMapperInterface $mapper;
+    /**
+     * @var MatchRepository
+     */
+    private MatchRepository $matchRepository;
 
-    public function __construct(ChampionRepository $championRepository, ChampionStatsCalculator $championStatsCalculator, AutoMapperInterface $mapper)
+    public function __construct(ChampionRepository $championRepository, MatchRepository $matchRepository, ChampionStatsCalculator $championStatsCalculator, AutoMapperInterface $mapper)
     {
         $this->championRepository = $championRepository;
         $this->championStatsCalculator = $championStatsCalculator;
         $this->mapper = $mapper;
+        $this->matchRepository = $matchRepository;
     }
 
 
@@ -50,7 +55,36 @@ class ChampionService
         return $this->mapper->mapMultiple($championsStats, ChampionStatsDto::class);
     }
 
+    /**
+     * @param string $championName
+     * @return MatchDto[]
+     */
+    public function getMatches(string $championName) : array
+    {
+        $champion = $this->championRepository->getChampionByName($championName);
 
+        $matches = $this->matchRepository->getMatchesWithChampion($champion);
+
+        return $this->mapper->mapMultiple($matches, MatchDto::class);
+
+
+    }
+
+    /**
+     * @param string $championName
+     * @return ChampionStatsDto
+     * @throws \AutoMapperPlus\Exception\UnregisteredMappingException
+     */
+    public function getChampionStats(string $championName) : ChampionStatsDto
+    {
+        /** @var Champion $champion */
+        $champion = $this->championRepository->getChampionByName($championName);
+
+        $stats = $champion->getChampionStats($this->championStatsCalculator);
+
+        return $this->mapper->map($stats, ChampionStatsDto::class);
+
+    }
 
 
 }

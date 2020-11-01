@@ -86,4 +86,9 @@ class MatchService
 
         $this->matchRepository->save($match);
     }
+
+    public function getMatchesAmount()
+    {
+        return $this->matchRepository->getMatchesAmount();
+    }
 }

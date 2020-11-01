@@ -61,7 +61,7 @@ class DoctrineMatchRepository implements MatchRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getMatchsWithChampion(Champion $champion)
+    public function getMatchesWithChampion(Champion $champion)
     {
         $qb = $this->em->createQueryBuilder();
         $qb->select('match')
@@ -80,4 +80,11 @@ class DoctrineMatchRepository implements MatchRepository
     }
 
 
+    public function getMatchesAmount() : int
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('COUNT(match.id)')->from(Match::class, 'match');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

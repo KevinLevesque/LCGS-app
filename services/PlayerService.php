@@ -3,10 +3,12 @@
 namespace KLevesque\LCGS\Services;
 
 use AutoMapperPlus\AutoMapperInterface;
+use KLevesque\LCGS\Domain\Match\MatchRepository;
 use KLevesque\LCGS\Domain\Player\PlayerStatsCalculator;
 use KLevesque\LCGS\Domain\Player\Player;
 use KLevesque\LCGS\Domain\Player\PlayerRepository;
 use KLevesque\LCGS\Infrastructure\RiotApi\RiotApi;
+use KLevesque\LCGS\Services\Dto\MatchDto;
 use KLevesque\LCGS\Services\Dto\PlayerDto;
 use KLevesque\LCGS\Services\Dto\PlayerStatsDto;
 
@@ -25,14 +27,19 @@ class PlayerService
      * @var PlayerStatsCalculator
      */
     private PlayerStatsCalculator $playerStatsCalculator;
+    /**
+     * @var MatchRepository
+     */
+    private MatchRepository $matchRepository;
 
 
-    public function __construct(RiotApi $riotApi, PlayerRepository $playerRepository, PlayerStatsCalculator $playerStatsCalculator, AutoMapperInterface $mapper)
+    public function __construct(RiotApi $riotApi, PlayerRepository $playerRepository, PlayerStatsCalculator $playerStatsCalculator, MatchRepository $matchRepository, AutoMapperInterface $mapper)
     {
         $this->riotApi = $riotApi;
         $this->playerRepository = $playerRepository;
         $this->mapper = $mapper;
         $this->playerStatsCalculator = $playerStatsCalculator;
+        $this->matchRepository = $matchRepository;
     }
 
 
@@ -63,5 +70,32 @@ class PlayerService
         }
 
         return $this->mapper->mapMultiple($playersStats, PlayerStatsDto::class);
+    }
+
+    /**
+     * @param String $playerUsername
+     * @return MatchDto[]
+     */
+    public function getMatches(String $playerUsername)
+    {
+        $player = $this->playerRepository->getPlayer($playerUsername);
+
+        $matches = $this->matchRepository->getMatchesWithPlayer($player);
+
+        return $this->mapper->mapMultiple($matches, MatchDto::class);
+    }
+
+    /**
+     * @param string $playerUsername
+     * @return PlayerStatsDto
+     * @throws \AutoMapperPlus\Exception\UnregisteredMappingException
+     */
+    public function getStats(string $playerUsername) : PlayerStatsDto
+    {
+        $player = $this->playerRepository->getPlayer($playerUsername);
+
+        $stats = $player->getPlayerStats($this->playerStatsCalculator);
+
+        return $this->mapper->map($stats, PlayerStatsDto::class);
     }
 }

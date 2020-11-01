@@ -38,6 +38,22 @@ class PlayerController extends Controller
     }
 
     public function getAllStats(){
-        return response()->json($this->playerService->getAllStats());
+        return response()->json(
+            $this->playerService->getAllStats()
+        );
+    }
+
+    public function getStats($username){
+        $username = urldecode($username);
+        return response()->json(
+            $this->playerService->getStats($username)
+        );
+    }
+
+    public function getMatches($username){
+        $username = urldecode($username);
+        return response()->json(
+            $this->playerService->getMatches($username)
+        );
     }
 }

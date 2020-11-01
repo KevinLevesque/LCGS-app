@@ -14,6 +14,8 @@ interface MatchRepository
     public function save(Match $match);
     public function getMatchesWithPlayer(Player $player);
     public function getAll();
-    public function getMatchsWithChampion(Champion $champion);
+    public function getMatchesWithChampion(Champion $champion);
+
+    public function getMatchesAmount();
 
 }

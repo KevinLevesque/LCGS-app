@@ -41,6 +41,12 @@ class MatchController extends Controller
         return response()->json($match);
     }
 
+    public function getMatchesCount()
+    {
+        $count = $this->matchService->getMatchesAmount();
+        return response()->json(['count' => $count]);
+    }
+
     public function setPlayer($matchId, $participantId, Request $request) {
         $this->matchService->setParticipantPlayer($matchId, $participantId, $request->get('username'));
     }

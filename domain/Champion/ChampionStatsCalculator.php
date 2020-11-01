@@ -22,7 +22,7 @@ class ChampionStatsCalculator
 
 
     public function calculateStats(Champion $champion) : ChampionStats{
-        $matches = $this->matchRepository->getMatchsWithChampion($champion);
+        $matches = $this->matchRepository->getMatchesWithChampion($champion);
 
         $wins = 0;
         $losses = 0;
